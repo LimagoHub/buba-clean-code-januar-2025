@@ -51,7 +51,7 @@ namespace Buba.Game.Nim
             Console.WriteLine("Computer nimmt " + zug + " Steine");
 
 
-            terminateTurn("Computer");
+            TerminateTurn("Computer");
         }
 
         private void Spielerzug()
@@ -66,14 +66,26 @@ namespace Buba.Game.Nim
                 Console.WriteLine("Ungueltiger Zug");
             }
 
-            terminateTurn( "Mensch");
+            TerminateTurn( "Mensch");
         }
 
-        private void terminateTurn( string spielername)
+        private void TerminateTurn( string spielername)// Integration
         {
-            Steine -= zug;
+            UpdateBoard();
+            PrintGameoverMessageIfGameIsOver(spielername);
+        }
+
+        private void PrintGameoverMessageIfGameIsOver(string spielername) // Operation
+        {
             if (GameOver)
                 Console.WriteLine(spielername + " hat verloren");
+        }
+
+        // Implementierungssumpf ----------------------------------------------------
+
+        private void UpdateBoard()// Operation
+        {
+            Steine -= zug;
         }
     }
 }
