@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Buba.Game;
@@ -13,11 +14,15 @@ namespace Buba.Game.Nim
     /// </summary>
     public class NimGame : IGame
     {
-        public int Steine { get; set; }
-        public bool GameOver { get; set; }
+        private int Steine { get; set; }
+
+        private bool GameOver => Steine <= 0;
+
+        private int zug;
+
         public NimGame()
         {
-            GameOver = false;
+            zug = 0;
             Steine = 23;
         }
 
@@ -29,38 +34,30 @@ namespace Buba.Game.Nim
             }
         }
 
-        private void PlayRound()
+        private void PlayRound()// Integration
         {
             Spielerzug();
             Computerzug();
         }
 
-        private void Computerzug()
+        private void Computerzug()// 
         {
-            int[] zuege = { 3, 1, 1, 2 };
+            if (GameOver) return;
 
-            if (Steine < 1)
-            {
-                Console.WriteLine("Du Loser!");
-                GameOver = true;
-                return;
-            }
-            if (Steine == 1)
-            {
-                Console.WriteLine("Du hast nur Glueck gehabt!");
-                Steine--;
-                GameOver = true;
-                return;
-            }
-            int zug = zuege[Steine%4];
+            int[] zuege = { 3, 1, 1, 2 };
+            
+          
+            zug = zuege[Steine%4];
             Console.WriteLine("Computer nimmt " + zug + " Steine");
 
-            Steine -= zug;
+
+            terminateTurn("Computer");
         }
 
         private void Spielerzug()
         {
-            int zug;
+            if (GameOver) return;
+            
             while (true)
             {
                 Console.WriteLine("Es gibt " + Steine + " Steine. Bitte nehmen Sie 1,2 oder 3!");
@@ -69,7 +66,14 @@ namespace Buba.Game.Nim
                 Console.WriteLine("Ungueltiger Zug");
             }
 
+            terminateTurn( "Mensch");
+        }
+
+        private void terminateTurn( string spielername)
+        {
             Steine -= zug;
+            if (GameOver)
+                Console.WriteLine(spielername + " hat verloren");
         }
     }
 }
