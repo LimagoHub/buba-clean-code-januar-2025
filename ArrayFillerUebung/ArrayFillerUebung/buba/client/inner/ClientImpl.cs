@@ -12,7 +12,7 @@ public class ClientImpl: IClient
         Factory = factory;
     }
 
-    public void DoSomethingWithLargeArray()
+    public virtual void DoSomethingWithLargeArray()
     {
         var feld = Factory.CreateAndFillArray(int.MaxValue / 32);
         for (int i = 0; i < 3; i++)

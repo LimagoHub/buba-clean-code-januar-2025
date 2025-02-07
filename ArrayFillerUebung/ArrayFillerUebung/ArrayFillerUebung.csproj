@@ -7,10 +7,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="buba\container\inner\" />
-      <Folder Include="buba\generator\inner\" />
-      <Folder Include="buba\time\inner\" />
-    </ItemGroup>
-
 </Project>
