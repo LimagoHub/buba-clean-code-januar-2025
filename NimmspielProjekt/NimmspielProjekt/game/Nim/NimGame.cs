@@ -6,7 +6,7 @@ namespace Buba.Game.Nim
     /// <summary>
     /// 
     /// </summary>
-    public class NimGame : AbstracGame<int,int>
+    public class NimGame : AbstractGame<int,int>
     {
    
 

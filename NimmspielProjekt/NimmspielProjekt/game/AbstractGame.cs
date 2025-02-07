@@ -3,7 +3,7 @@ using NimmspielProjekt.game.Player;
 
 namespace NimmspielProjekt.game
 {
-    public abstract class AbstracGame<BOARD,TURN>: IGame
+    public abstract class AbstractGame<BOARD,TURN>: IGame
 
     {
         protected IList<IPlayer<BOARD, TURN>> Players { get; } = new List<IPlayer<BOARD, TURN>>();
