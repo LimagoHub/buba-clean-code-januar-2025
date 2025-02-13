@@ -2,7 +2,7 @@
 
 namespace ArrayFillerUebung.buba.time;
 
-public class StopwatchImpl : IStopwatch
+public class StopwatchImpl : IStopwatch, IStopwatchExtended
 {
     private readonly Stopwatch _stopwatch = new Stopwatch();
 
@@ -13,8 +13,13 @@ public class StopwatchImpl : IStopwatch
 
     public virtual void Stop()
     {
+        
         _stopwatch.Stop();
     }
 
     public virtual TimeSpan Elapsed => _stopwatch.Elapsed;
+    public void Reset()
+    {
+        _stopwatch.Reset();
+    }
 }
