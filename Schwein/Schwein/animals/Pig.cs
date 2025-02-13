@@ -19,8 +19,12 @@ public class Pig
 
     public void Feed()
     {
-        Thread.Sleep(2000);
-        Weight++;
+        Task.Run(() =>
+        {
+            Thread.Sleep(2000);
+            Weight++;
+        });
+
     }
 
     public override string ToString()

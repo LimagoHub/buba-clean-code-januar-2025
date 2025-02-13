@@ -22,10 +22,11 @@ public class Bootstrap
     private void Run(int threadCount)
     {
         Console.WriteLine($"Running with {threadCount} threads.");
-        //IGenerator<int> generator = new RandomNumberGeneratorImpl();
-        IGenerator<int> generator = new GenericGeneratorImpl(1, v=>v+2);
+        IGenerator<int> generator = new RandomNumberGeneratorImpl();
+        //IGenerator<int> generator = new GenericGeneratorImpl(1, v=>v+2);
         ArrayFactoryBuilder.logger = true;
         ArrayFactoryBuilder.Benchmark= new StopwatchImpl();
+        ArrayFactoryBuilder.numberOfThreads = threadCount;
         IArrayFactory<int> factory = ArrayFactoryBuilder.CreateArrayFactory(generator);
         IClient client = new ClientImpl(factory);
         client.DoSomethingWithLargeArray();
