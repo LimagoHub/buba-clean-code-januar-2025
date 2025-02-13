@@ -1,5 +1,5 @@
 ﻿using ArrayFillerUebung.buba.generator;
-
+using System.Threading.Tasks;
 namespace ArrayFillerUebung.buba.container.inner.parallel;
 
 public class ArrayFactoryAutoImpl<T>: AbstractArrayFactory<T>
@@ -13,6 +13,9 @@ public class ArrayFactoryAutoImpl<T>: AbstractArrayFactory<T>
     }
     protected override void FillData()
     {
-        throw new NotImplementedException();
+        
+        Parallel.For(0, Data.Length, i => { Data[i] = _generator.Next();});
+       
     }
 }
+
