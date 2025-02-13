@@ -14,7 +14,7 @@ public class ClientImpl: IClient
 
     public virtual void DoSomethingWithLargeArray()
     {
-        var feld = Factory.CreateAndFillArray(int.MaxValue / 32);
+        var feld = Factory.CreateAndFillArray(int.MaxValue / 2);
         for (int i = 0; i < 3; i++)
         {
             Console.WriteLine(feld[i]);
