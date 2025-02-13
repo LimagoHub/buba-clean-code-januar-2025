@@ -13,15 +13,23 @@ public class ArrayFactoryBuilder
     public static bool logger { get; set; } = false;
     
     public static int numberOfThreads { get; set; } = 1;
-    public static IArrayFactory<int> CreateArrayFactory(IGenerator<int> generator)
+    public static IArrayFactory<int> CreateArrayFactory(IGeneratorBuilder<int> generatorBuilder)
     {
         IArrayFactory<int> factory;
-        if(numberOfThreads == 1)
-            factory = new ArrayFactorySequentialImpl<int>(generator);
-        else
+        switch (numberOfThreads)
         {
-            factory = new ArrayFactoryParallelImpl<int>(generator, numberOfThreads);
+            case 0: 
+                factory = new ArrayFactoryAutoImpl<int>(generatorBuilder.create());
+                break;
+            case 1 :
+                factory = new ArrayFactorySequentialImpl<int>(generatorBuilder.create());
+                break;
+            default:
+                factory = new ArrayFactoryParallelImpl<int>(generatorBuilder, numberOfThreads);
+                break;
         }
+
+       
         if (logger) factory = new ArrayFactoryLoggerDecorator<int>(factory);
         
         if (Benchmark!=null) factory = 

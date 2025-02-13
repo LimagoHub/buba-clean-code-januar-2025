@@ -1,10 +1,10 @@
 ﻿namespace ArrayFillerUebung.buba.generator;
 
-public class RandomNumberGeneratorImpl: IIntGenerator
+public class RandomNumberGeneratorImpl: IGenerator<int>
 {
-    //private readonly Random _random = new Random();
+    private readonly Random _random = new Random(unchecked(Environment.TickCount + Thread.CurrentThread.ManagedThreadId));
     public virtual int Next()
     {
-        return Random.Shared.Next();
+        return _random.Next();
     }
 }

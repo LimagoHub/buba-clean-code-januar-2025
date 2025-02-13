@@ -12,7 +12,7 @@ public class Bootstrap
     public void StartApplication()
     {
         var availableProcessors = Environment.ProcessorCount;
-        for (var threadCount = 1; threadCount <= availableProcessors +1; threadCount++)
+        for (var threadCount = 0; threadCount <= availableProcessors +1; threadCount++)
         {
             Run(threadCount);
         }
@@ -22,12 +22,12 @@ public class Bootstrap
     private void Run(int threadCount)
     {
         Console.WriteLine($"Running with {threadCount} threads.");
-        IGenerator<int> generator = new RandomNumberGeneratorImpl();
+        IGeneratorBuilder<int> generatorBuilder = new RandomGeneratorBuilderImpl();
         //IGenerator<int> generator = new GenericGeneratorImpl(1, v=>v+2);
         ArrayFactoryBuilder.logger = true;
         ArrayFactoryBuilder.Benchmark= new StopwatchImpl();
         ArrayFactoryBuilder.numberOfThreads = threadCount;
-        IArrayFactory<int> factory = ArrayFactoryBuilder.CreateArrayFactory(generator);
+        IArrayFactory<int> factory = ArrayFactoryBuilder.CreateArrayFactory(generatorBuilder);
         IClient client = new ClientImpl(factory);
         client.DoSomethingWithLargeArray();
 

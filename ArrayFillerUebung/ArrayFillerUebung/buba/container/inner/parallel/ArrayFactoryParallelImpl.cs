@@ -4,13 +4,13 @@ namespace ArrayFillerUebung.buba.container.inner.parallel;
 
 public class ArrayFactoryParallelImpl<T>: AbstractArrayFactory<T>
 {
-    private readonly IGenerator <T> _generator;
+    private readonly IGeneratorBuilder <T> _generatorBuilder;
     private readonly int _numberOfThreads;
     private readonly IList<Task> _threadHolder ;
     private int _partitionSize;
-    public ArrayFactoryParallelImpl(IGenerator<T> generator, int numberOfThreads)
+    public ArrayFactoryParallelImpl(IGeneratorBuilder<T> generatorBuilder, int numberOfThreads)
     {
-        _generator = generator;
+        _generatorBuilder = generatorBuilder;
         _numberOfThreads = numberOfThreads;
         _threadHolder = new List<Task>(_numberOfThreads);
     }
@@ -22,10 +22,7 @@ public class ArrayFactoryParallelImpl<T>: AbstractArrayFactory<T>
         AwaitTermination();
     }
     
-    private void CalculatePartitionSize() => _partitionSize = (int)(Data.Length / _numberOfThreads);
-
-    private void AwaitTermination() => Task.WaitAll(_threadHolder.ToArray());
-
+    private void CalculatePartitionSize() => _partitionSize = (Data.Length / _numberOfThreads);
     private void AddWorkerToThreadPool()
     {
         for (int currentThreadNumber = 0; currentThreadNumber < _numberOfThreads; currentThreadNumber++)
@@ -33,6 +30,8 @@ public class ArrayFactoryParallelImpl<T>: AbstractArrayFactory<T>
             StartSingleWorker(currentThreadNumber);
         }
     }
+    private void AwaitTermination() => Task.WaitAll(_threadHolder.ToArray());
+  
 
     private void StartSingleWorker(int currentThreadNumber)
     {
@@ -44,9 +43,11 @@ public class ArrayFactoryParallelImpl<T>: AbstractArrayFactory<T>
     private void FillPartionWorker(int start, int end)
     {
         //Console.WriteLine($"Start: {start} End: {end}");
+
+        var generator = _generatorBuilder.create();
         for (int i = start; i < end; i++)
         {
-            Data[i] = _generator.Next();
+            Data[i] = generator.Next();
         }
     }
 }
